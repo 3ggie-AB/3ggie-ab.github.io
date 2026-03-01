@@ -39,20 +39,8 @@ const QuranPage = () => {
     return () => window.removeEventListener('focus', onFocus);
   }, []);
 
-  const handleDownloadAll = async () => {
-    if (downloading) return;
-    setDownloading(true);
-    setDlProgress(0);
-    toast('Mulai mengunduh semua data...');
-    try {
-      await downloadAllData((done, total) => {
-        setDlProgress(Math.round((done / total) * 100));
-      });
-      toast.success('Semua data berhasil disimpan! ✅');
-    } catch {
-      toast.error('Gagal mengunduh semua data.');
-    }
-    setDownloading(false);
+  const handleDownloadAll = () => {
+    navigate('/downloads');
   };
 
   const shortcutSurahs = surahs.filter((s) => shortcuts.includes(s.nomor));
