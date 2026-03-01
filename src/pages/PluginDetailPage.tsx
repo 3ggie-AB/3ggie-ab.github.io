@@ -61,7 +61,12 @@ const PluginDetailPage = () => {
               <p className="text-xs text-muted-foreground">{plugin.contents.length} item</p>
             </div>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleExport} title="Download JSON">
+              <FileDown className="h-4 w-4" />
+            </Button>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

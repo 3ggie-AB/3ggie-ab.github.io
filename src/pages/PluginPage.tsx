@@ -251,15 +251,20 @@ const PluginPage = () => {
                   <span className="font-medium text-foreground block truncate">{plugin.name}</span>
                   <span className="text-xs text-muted-foreground block truncate">{plugin.description}</span>
                 </div>
-                {plugin.installed ? (
-                  <span className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
-                    <Check className="h-3.5 w-3.5" /> Terinstal
-                  </span>
-                ) : (
-                  <Button variant="secondary" size="sm" className="shrink-0" onClick={() => handleInstall(plugin.id)}>
-                    <Download className="h-3.5 w-3.5 mr-1" /> Install
+                <div className="flex items-center gap-1 shrink-0">
+                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleExportPlugin(plugin)} title="Download JSON">
+                    <FileDown className="h-3.5 w-3.5" />
                   </Button>
-                )}
+                  {plugin.installed ? (
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Check className="h-3.5 w-3.5" /> Terinstal
+                    </span>
+                  ) : (
+                    <Button variant="secondary" size="sm" onClick={() => handleInstall(plugin.id)}>
+                      <Download className="h-3.5 w-3.5 mr-1" /> Install
+                    </Button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
