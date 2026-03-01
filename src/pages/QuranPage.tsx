@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import QuranPlayer from '@/components/QuranPlayer';
 import { fetchSurahs, downloadAllData } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
 import { toast } from 'sonner';
