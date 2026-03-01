@@ -8,7 +8,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
 import OnlineIndicator from '@/components/OnlineIndicator';
 import QuranPlayer from '@/components/QuranPlayer';
-import { fetchSurahs, downloadAllData } from '@/lib/api';
+import { fetchSurahs } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
 import { toast } from 'sonner';
 import type { Surah } from '@/lib/db';
