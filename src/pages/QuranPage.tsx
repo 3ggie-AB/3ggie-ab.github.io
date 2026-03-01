@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, BookOpen, RefreshCw, Download, Star, Headphones, Layers } from 'lucide-react';
+import { Search, BookOpen, RefreshCw, Download, Star, Layers } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
 import OnlineIndicator from '@/components/OnlineIndicator';
