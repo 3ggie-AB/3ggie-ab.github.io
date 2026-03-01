@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronRight, FileDown } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
@@ -28,6 +29,23 @@ const PluginDetailPage = () => {
 
   const surahLink = SURAH_LINK[plugin.id];
 
+  const handleExport = () => {
+    const exportData = {
+      name: plugin.name,
+      description: plugin.description,
+      icon: plugin.icon,
+      contents: plugin.contents,
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${plugin.id}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Plugin berhasil didownload!');
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
@@ -43,7 +61,12 @@ const PluginDetailPage = () => {
               <p className="text-xs text-muted-foreground">{plugin.contents.length} item</p>
             </div>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleExport} title="Download JSON">
+              <FileDown className="h-4 w-4" />
+            </Button>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
