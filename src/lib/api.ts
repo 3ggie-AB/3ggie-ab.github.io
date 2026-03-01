@@ -75,3 +75,25 @@ export async function fetchTafsir(surahNomor: number, forceRefresh = false): Pro
     return db.tafsirs.where('surahNomor').equals(surahNomor).sortBy('nomorAyat');
   }
 }
+
+/** Download all 114 surahs + ayat + tafsir to IndexedDB. Returns progress via callback. */
+export async function downloadAllData(
+  onProgress: (done: number, total: number) => void
+): Promise<void> {
+  const surahs = await fetchSurahs(true);
+  const total = surahs.length;
+  let done = 0;
+
+  // Process in batches of 3 to avoid hammering API
+  for (let i = 0; i < surahs.length; i += 3) {
+    const batch = surahs.slice(i, i + 3);
+    await Promise.all(
+      batch.map(async (s) => {
+        await fetchAyats(s.nomor, true);
+        await fetchTafsir(s.nomor, true);
+        done++;
+        onProgress(done, total);
+      })
+    );
+  }
+}

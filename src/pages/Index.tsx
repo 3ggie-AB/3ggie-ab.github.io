@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, BookOpen, RefreshCw } from 'lucide-react';
+import { Search, BookOpen, RefreshCw, Download, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
-import { fetchSurahs } from '@/lib/api';
+import { fetchSurahs, downloadAllData } from '@/lib/api';
+import { getShortcuts } from '@/lib/shortcuts';
+import { toast } from 'sonner';
 import type { Surah } from '@/lib/db';
 
 const Index = () => {
@@ -12,6 +15,9 @@ const Index = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [dlProgress, setDlProgress] = useState(0);
+  const [shortcuts, setShortcuts] = useState<number[]>([]);
   const navigate = useNavigate();
 
   const load = async (force = false) => {
@@ -19,11 +25,37 @@ const Index = () => {
     else setLoading(true);
     const data = await fetchSurahs(force);
     setSurahs(data);
+    setShortcuts(getShortcuts());
     setLoading(false);
     setRefreshing(false);
   };
 
   useEffect(() => { load(); }, []);
+
+  // Refresh shortcuts when page gains focus (returning from detail)
+  useEffect(() => {
+    const onFocus = () => setShortcuts(getShortcuts());
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, []);
+
+  const handleDownloadAll = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    setDlProgress(0);
+    toast('Mulai mengunduh semua data...');
+    try {
+      await downloadAllData((done, total) => {
+        setDlProgress(Math.round((done / total) * 100));
+      });
+      toast.success('Semua data berhasil disimpan ke memori! ✅');
+    } catch {
+      toast.error('Gagal mengunduh semua data. Coba lagi.');
+    }
+    setDownloading(false);
+  };
+
+  const shortcutSurahs = surahs.filter((s) => shortcuts.includes(s.nomor));
 
   const filtered = surahs.filter((s) => {
     const q = search.toLowerCase();
@@ -48,6 +80,15 @@ const Index = () => {
               variant="ghost"
               size="icon"
               className="h-9 w-9"
+              onClick={handleDownloadAll}
+              disabled={downloading}
+            >
+              <Download className={`h-4 w-4 ${downloading ? 'animate-pulse' : ''}`} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9"
               onClick={() => load(true)}
               disabled={refreshing}
             >
@@ -59,6 +100,44 @@ const Index = () => {
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-4">
+        {/* Download Progress */}
+        {downloading && (
+          <div className="mb-4 space-y-2 animate-fade-in">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Mengunduh data...</span>
+              <span>{dlProgress}%</span>
+            </div>
+            <Progress value={dlProgress} className="h-2" />
+          </div>
+        )}
+
+        {/* Shortcuts */}
+        {shortcutSurahs.length > 0 && !search && (
+          <div className="mb-4 animate-fade-in">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Star className="h-3.5 w-3.5 text-muted-foreground fill-current" />
+              <span className="text-xs font-medium text-muted-foreground">Pintasan</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {shortcutSurahs.map((s) => (
+                <button
+                  key={s.nomor}
+                  onClick={() => navigate(`/surah/${s.nomor}`)}
+                  className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-left transition-all hover:bg-accent"
+                >
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary text-xs font-semibold text-secondary-foreground">
+                    {s.nomor}
+                  </span>
+                  <div>
+                    <span className="text-sm font-medium text-foreground">{s.namaLatin}</span>
+                    <span className="block text-[10px] text-muted-foreground">{s.arti}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Search */}
         <div className="relative mb-4">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
