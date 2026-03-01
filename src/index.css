@@ -90,22 +90,7 @@
     --shadow-lg: 0 8px 24px -4px rgb(0 0 0 / 0.4);
   }
 
-  /* Color mode - adds subtle tint */
-  .color-mode {
-    --primary: 160 60% 40%;
-    --primary-foreground: 0 0% 98%;
-    --accent: 160 30% 92%;
-    --accent-foreground: 160 60% 20%;
-    --ring: 160 60% 40%;
-  }
-
-  .dark.color-mode {
-    --primary: 160 60% 55%;
-    --primary-foreground: 0 0% 5%;
-    --accent: 160 30% 14%;
-    --accent-foreground: 160 60% 75%;
-    --ring: 160 60% 55%;
-  }
+  /* Color mode kept for backward compat */
 }
 
 @layer base {
