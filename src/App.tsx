@@ -36,6 +36,7 @@ const App = () => {
             <Route path="/juz" element={<JuzPage />} />
             <Route path="/plugin" element={<PluginPage />} />
             <Route path="/plugin/:id" element={<PluginDetailPage />} />
+            <Route path="/downloads" element={<DownloadManagerPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
