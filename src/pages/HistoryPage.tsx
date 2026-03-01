@@ -4,6 +4,7 @@ import { History, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import OnlineIndicator from '@/components/OnlineIndicator';
 import { getHistory, clearHistory, type HistoryEntry } from '@/lib/history';
 
 const HistoryPage = () => {
@@ -32,6 +33,7 @@ const HistoryPage = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      <OnlineIndicator />
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">

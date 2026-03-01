@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, BookOpen, RefreshCw, Star } from 'lucide-react';
 import { addHistory } from '@/lib/history';
@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import AudioPlayer from '@/components/AudioPlayer';
 import SurahAudioPlayer from '@/components/SurahAudioPlayer';
 import ThemeToggle from '@/components/ThemeToggle';
+import OnlineIndicator from '@/components/OnlineIndicator';
 import { fetchAyats, fetchSurahs, fetchTafsir } from '@/lib/api';
 import { isShortcut, addShortcut, removeShortcut } from '@/lib/shortcuts';
 import { toast } from 'sonner';
@@ -46,10 +47,10 @@ const SurahDetail = () => {
     setIsFav(isShortcut(surahId));
   }, [surahId]);
 
-  // Track history when surah loads
+  // Initial history entry when surah loads
   useEffect(() => {
     if (surah) {
-      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin });
+      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin, ayat: 1 });
     }
   }, [surah]);
 
@@ -89,8 +90,37 @@ const SurahDetail = () => {
 
   const getTafsirForAyat = (num: number) => tafsirs.find((t) => t.nomorAyat === num);
 
+  // Track visible ayat for history
+  const ayatRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const lastTrackedAyat = useRef<number>(0);
+
+  const trackAyatScroll = useCallback(() => {
+    if (!surah) return;
+    const viewportMid = window.innerHeight / 2;
+    let closestAyat = 0;
+    let closestDist = Infinity;
+    ayatRefs.current.forEach((el, num) => {
+      const rect = el.getBoundingClientRect();
+      const dist = Math.abs(rect.top + rect.height / 2 - viewportMid);
+      if (dist < closestDist) { closestDist = dist; closestAyat = num; }
+    });
+    if (closestAyat > 0 && closestAyat !== lastTrackedAyat.current) {
+      lastTrackedAyat.current = closestAyat;
+      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin, ayat: closestAyat });
+    }
+  }, [surah]);
+
+  useEffect(() => {
+    const handler = () => trackAyatScroll();
+    let timeout: ReturnType<typeof setTimeout>;
+    const debounced = () => { clearTimeout(timeout); timeout = setTimeout(handler, 500); };
+    window.addEventListener('scroll', debounced);
+    return () => { window.removeEventListener('scroll', debounced); clearTimeout(timeout); };
+  }, [trackAyatScroll]);
+
   return (
     <div className="min-h-screen bg-background">
+      <OnlineIndicator />
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
@@ -157,6 +187,7 @@ const SurahDetail = () => {
             {filtered.map((ayat, i) => (
               <div
                 key={ayat.nomorAyat}
+                ref={(el) => { if (el) ayatRefs.current.set(ayat.nomorAyat, el); }}
                 className="rounded-lg border border-border bg-card p-4 animate-slide-up"
                 style={{ animationDelay: `${Math.min(i * 20, 200)}ms`, animationFillMode: 'backwards' }}
               >

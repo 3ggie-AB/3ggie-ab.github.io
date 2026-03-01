@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, BookOpen, Puzzle, History, Wifi, WifiOff } from 'lucide-react';
+import { Home, BookOpen, Puzzle, History } from 'lucide-react';
 import { useOnline } from '@/hooks/use-online';
 
 const BottomNav = () => {
@@ -18,13 +18,6 @@ const BottomNav = () => {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/90 backdrop-blur-lg">
-      {/* Online/Offline indicator */}
-      <div className={`flex items-center justify-center gap-1.5 py-1 text-[10px] font-medium transition-colors ${
-        isOnline ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'
-      }`}>
-        {isOnline ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
-        <span>{isOnline ? 'Online' : 'Offline'}</span>
-      </div>
       <div className="mx-auto flex max-w-2xl items-center justify-around px-4 py-2">
         {items.map((item) => {
           const active = location.pathname === item.path || 

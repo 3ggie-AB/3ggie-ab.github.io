@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import OnlineIndicator from '@/components/OnlineIndicator';
 import QuranPlayer from '@/components/QuranPlayer';
 import { fetchSurahs, downloadAllData } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
@@ -64,6 +65,7 @@ const QuranPage = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      <OnlineIndicator />
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
