@@ -5,6 +5,9 @@ import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
 import OnlineIndicator from '@/components/OnlineIndicator';
 import { useOnline } from '@/hooks/use-online';
+import CalendarWidget from '@/components/CalendarWidget';
+import HadithWidget from '@/components/HadithWidget';
+import PrayerTimesWidget from '@/components/PrayerTimesWidget';
 
 interface NewsItem {
   title: string;
@@ -21,7 +24,6 @@ const Index = () => {
   const isOnline = useOnline();
   const navigate = useNavigate();
 
-  // Redirect to Al-Quran when offline
   useEffect(() => {
     if (!isOnline) {
       navigate('/quran', { replace: true });
@@ -62,8 +64,14 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-4 py-4">
-        <div className="flex items-center gap-1.5 mb-4">
+      <main className="mx-auto max-w-2xl px-4 py-4 space-y-4">
+        {/* Kalender & Waktu Sholat */}
+        <CalendarWidget />
+        <PrayerTimesWidget />
+        <HadithWidget />
+
+        {/* Berita Islam */}
+        <div className="flex items-center gap-1.5">
           <Newspaper className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold text-foreground">Berita Islam</span>
         </div>
