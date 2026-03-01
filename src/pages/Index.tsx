@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
+import BottomNav from '@/components/BottomNav';
 import { fetchSurahs, downloadAllData } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
 import { toast } from 'sonner';
@@ -67,7 +68,7 @@ const Index = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
@@ -192,6 +193,7 @@ const Index = () => {
           </div>
         )}
       </main>
+      <BottomNav />
     </div>
   );
 };
