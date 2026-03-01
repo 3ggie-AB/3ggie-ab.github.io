@@ -138,6 +138,7 @@ const SurahDetail = () => {
             </div>
           </div>
           <div className="flex items-center gap-1">
+            <OnlineIndicator />
             <Button
               variant={isFav ? 'secondary' : 'ghost'}
               size="icon"
