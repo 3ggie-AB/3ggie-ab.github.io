@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import QuranPage from "./pages/QuranPage";
 import SurahDetail from "./pages/SurahDetail";
 import HistoryPage from "./pages/HistoryPage";
+import JuzPage from "./pages/JuzPage";
 import PluginPage from "./pages/PluginPage";
 import PluginDetailPage from "./pages/PluginDetailPage";
 import NotFound from "./pages/NotFound";
