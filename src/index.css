@@ -6,44 +6,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 5%;
+    --background: 210 40% 98%;
+    --foreground: 215 25% 15%;
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 5%;
+    --card: 210 40% 96%;
+    --card-foreground: 215 25% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
+    --popover: 210 40% 98%;
+    --popover-foreground: 215 25% 15%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 217 91% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 94%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 215 25% 20%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 214 32% 93%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 0 0% 92%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 214 40% 92%;
+    --accent-foreground: 215 25% 15%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 9%;
+    --border: 214 25% 88%;
+    --input: 214 25% 88%;
+    --ring: 217 91% 50%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 26%;
-    --sidebar-primary: 0 0% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 0 0% 10%;
-    --sidebar-border: 0 0% 91%;
-    --sidebar-ring: 0 0% 59%;
+    --sidebar-background: 210 40% 96%;
+    --sidebar-foreground: 215 25% 26%;
+    --sidebar-primary: 217 91% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 40% 92%;
+    --sidebar-accent-foreground: 215 25% 15%;
+    --sidebar-border: 214 25% 88%;
+    --sidebar-ring: 217 91% 50%;
 
     --success: 142 71% 45%;
     --success-foreground: 0 0% 98%;
@@ -51,9 +51,9 @@
     --font-sans: 'Inter', system-ui, sans-serif;
     --font-arabic: 'Amiri', serif;
 
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03);
-    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.06);
-    --shadow-lg: 0 8px 24px -4px rgb(0 0 0 / 0.08);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+    --shadow-lg: 0 8px 24px -4px rgb(0 0 0 / 0.1);
   }
 
   .dark {
@@ -90,22 +90,7 @@
     --shadow-lg: 0 8px 24px -4px rgb(0 0 0 / 0.4);
   }
 
-  /* Color mode - adds subtle tint */
-  .color-mode {
-    --primary: 160 60% 40%;
-    --primary-foreground: 0 0% 98%;
-    --accent: 160 30% 92%;
-    --accent-foreground: 160 60% 20%;
-    --ring: 160 60% 40%;
-  }
-
-  .dark.color-mode {
-    --primary: 160 60% 55%;
-    --primary-foreground: 0 0% 5%;
-    --accent: 160 30% 14%;
-    --accent-foreground: 160 60% 75%;
-    --ring: 160 60% 55%;
-  }
+  /* Color mode kept for backward compat */
 }
 
 @layer base {

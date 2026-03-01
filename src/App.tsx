@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import Index from "./pages/Index";
+import QuranPage from "./pages/QuranPage";
 import SurahDetail from "./pages/SurahDetail";
 import PluginPage from "./pages/PluginPage";
 import PluginDetailPage from "./pages/PluginDetailPage";
@@ -26,6 +27,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/quran" element={<QuranPage />} />
             <Route path="/surah/:id" element={<SurahDetail />} />
             <Route path="/plugin" element={<PluginPage />} />
             <Route path="/plugin/:id" element={<PluginDetailPage />} />

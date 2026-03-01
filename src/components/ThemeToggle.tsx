@@ -1,42 +1,33 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Palette } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-type Mode = 'dark' | 'light' | 'color';
-
 const ThemeToggle = () => {
-  const [mode, setMode] = useState<Mode>('dark');
+  const [dark, setDark] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem('quran-theme') as Mode | null;
-    if (saved) {
-      setMode(saved);
-      applyMode(saved);
-    }
+    const saved = localStorage.getItem('quran-theme');
+    const isDark = saved !== 'light';
+    setDark(isDark);
+    applyMode(isDark);
   }, []);
 
-  const applyMode = (m: Mode) => {
+  const applyMode = (isDark: boolean) => {
     const html = document.documentElement;
     html.classList.remove('dark', 'color-mode');
-    if (m === 'dark') html.classList.add('dark');
-    if (m === 'light') { /* default */ }
-    if (m === 'color') {
-      html.classList.add('dark', 'color-mode');
-    }
+    if (isDark) html.classList.add('dark');
   };
 
-  const cycle = () => {
-    const next: Mode = mode === 'dark' ? 'light' : mode === 'light' ? 'color' : 'dark';
-    setMode(next);
+  const toggle = () => {
+    const next = !dark;
+    setDark(next);
     applyMode(next);
-    localStorage.setItem('quran-theme', next);
+    localStorage.setItem('quran-theme', next ? 'dark' : 'light');
   };
 
   return (
-    <Button variant="ghost" size="icon" onClick={cycle} className="h-9 w-9">
-      {mode === 'dark' && <Moon className="h-4 w-4" />}
-      {mode === 'light' && <Sun className="h-4 w-4" />}
-      {mode === 'color' && <Palette className="h-4 w-4" />}
+    <Button variant="ghost" size="icon" onClick={toggle} className="h-9 w-9">
+      {dark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
     </Button>
   );
 };
