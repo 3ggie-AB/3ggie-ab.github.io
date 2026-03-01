@@ -110,6 +110,23 @@ const PluginPage = () => {
     e.target.value = '';
   };
 
+  const handleExportPlugin = (plugin: Plugin) => {
+    const exportData = {
+      name: plugin.name,
+      description: plugin.description,
+      icon: plugin.icon,
+      contents: plugin.contents,
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${plugin.id}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Plugin "${plugin.name}" berhasil didownload!`);
+  };
+
   const builtinWithStatus = BUILTIN_PLUGINS.map((p) => ({
     ...p,
     installed: installedIds.includes(p.id),
