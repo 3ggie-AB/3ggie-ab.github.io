@@ -28,10 +28,28 @@ export interface Tafsir {
   teks: string;
 }
 
+export interface AudioCache {
+  id?: number;
+  surahNomor: number;
+  nomorAyat: number; // 0 = full surah audio
+  qari: string;
+  blob: Blob;
+}
+
+export interface DownloadStatus {
+  surahNomor: number;
+  textDone: boolean;
+  audioDone: boolean;
+  totalAyat: number;
+  downloadedAyatAudio: number;
+}
+
 class QuranDB extends Dexie {
   surahs!: Table<Surah, number>;
   ayats!: Table<Ayat, number>;
   tafsirs!: Table<Tafsir, number>;
+  audioCache!: Table<AudioCache, number>;
+  downloadStatus!: Table<DownloadStatus, number>;
 
   constructor() {
     super('quranDB');
@@ -39,6 +57,13 @@ class QuranDB extends Dexie {
       surahs: 'nomor, namaLatin',
       ayats: '++id, surahNomor, [surahNomor+nomorAyat]',
       tafsirs: '++id, surahNomor, [surahNomor+nomorAyat]',
+    });
+    this.version(2).stores({
+      surahs: 'nomor, namaLatin',
+      ayats: '++id, surahNomor, [surahNomor+nomorAyat]',
+      tafsirs: '++id, surahNomor, [surahNomor+nomorAyat]',
+      audioCache: '++id, surahNomor, [surahNomor+nomorAyat+qari]',
+      downloadStatus: 'surahNomor',
     });
   }
 }

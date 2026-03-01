@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, BookOpen, RefreshCw, Download, Star, Headphones, Layers } from 'lucide-react';
+import { Search, BookOpen, RefreshCw, Download, Star, Layers } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
 import OnlineIndicator from '@/components/OnlineIndicator';
 import QuranPlayer from '@/components/QuranPlayer';
-import { fetchSurahs, downloadAllData } from '@/lib/api';
+import { fetchSurahs } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
 import { toast } from 'sonner';
 import type { Surah } from '@/lib/db';
@@ -18,8 +17,6 @@ const QuranPage = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [dlProgress, setDlProgress] = useState(0);
   const [shortcuts, setShortcuts] = useState<number[]>([]);
   const navigate = useNavigate();
 
@@ -41,20 +38,8 @@ const QuranPage = () => {
     return () => window.removeEventListener('focus', onFocus);
   }, []);
 
-  const handleDownloadAll = async () => {
-    if (downloading) return;
-    setDownloading(true);
-    setDlProgress(0);
-    toast('Mulai mengunduh semua data...');
-    try {
-      await downloadAllData((done, total) => {
-        setDlProgress(Math.round((done / total) * 100));
-      });
-      toast.success('Semua data berhasil disimpan! ✅');
-    } catch {
-      toast.error('Gagal mengunduh semua data.');
-    }
-    setDownloading(false);
+  const handleDownloadAll = () => {
+    navigate('/downloads');
   };
 
   const shortcutSurahs = surahs.filter((s) => shortcuts.includes(s.nomor));
@@ -76,8 +61,8 @@ const QuranPage = () => {
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => navigate('/juz')}>
               <Layers className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleDownloadAll} disabled={downloading}>
-              <Download className={`h-4 w-4 ${downloading ? 'animate-pulse' : ''}`} />
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleDownloadAll}>
+              <Download className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => load(true)} disabled={refreshing}>
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -91,15 +76,6 @@ const QuranPage = () => {
         {/* Quran Player */}
         {!loading && surahs.length > 0 && <QuranPlayer surahs={surahs} />}
 
-        {downloading && (
-          <div className="mb-4 space-y-2 animate-fade-in">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Mengunduh data...</span>
-              <span>{dlProgress}%</span>
-            </div>
-            <Progress value={dlProgress} className="h-2" />
-          </div>
-        )}
 
         {shortcutSurahs.length > 0 && !search && (
           <div className="mb-4 animate-fade-in">
