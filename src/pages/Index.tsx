@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Home, WifiOff, Newspaper } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import OnlineIndicator from '@/components/OnlineIndicator';
+import { useOnline } from '@/hooks/use-online';
 import { useOnline } from '@/hooks/use-online';
 
 interface NewsItem {
