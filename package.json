@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://3ggie-AB.github.io/quran-companion/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,7 +11,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -48,6 +50,7 @@
     "date-fns": "^3.6.0",
     "dexie": "^4.3.0",
     "embla-carousel-react": "^8.6.0",
+    "gh-pages": "^6.3.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",
