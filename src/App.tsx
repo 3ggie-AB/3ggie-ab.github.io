@@ -12,6 +12,7 @@ import HistoryPage from "./pages/HistoryPage";
 import JuzPage from "./pages/JuzPage";
 import PluginPage from "./pages/PluginPage";
 import PluginDetailPage from "./pages/PluginDetailPage";
+import DownloadManagerPage from "./pages/DownloadManagerPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
