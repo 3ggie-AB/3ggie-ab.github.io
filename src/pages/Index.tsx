@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
+import BottomNav from '@/components/BottomNav';
 import { fetchSurahs, downloadAllData } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
 import { toast } from 'sonner';
