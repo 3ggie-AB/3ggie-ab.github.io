@@ -7,7 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import Index from "./pages/Index";
 import SurahDetail from "./pages/SurahDetail";
-import BacaanPage from "./pages/BacaanPage";
+import PluginPage from "./pages/PluginPage";
+import PluginDetailPage from "./pages/PluginDetailPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,7 +27,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/surah/:id" element={<SurahDetail />} />
-            <Route path="/bacaan" element={<BacaanPage />} />
+            <Route path="/plugin" element={<PluginPage />} />
+            <Route path="/plugin/:id" element={<PluginDetailPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

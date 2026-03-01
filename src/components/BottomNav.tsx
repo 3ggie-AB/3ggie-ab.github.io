@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, Home, Library } from 'lucide-react';
+import { Home, Puzzle } from 'lucide-react';
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -7,7 +7,7 @@ const BottomNav = () => {
 
   const items = [
     { icon: Home, label: 'Beranda', path: '/' },
-    { icon: Library, label: 'Bacaan', path: '/bacaan' },
+    { icon: Puzzle, label: 'Plugin', path: '/plugin' },
   ];
 
   return (
