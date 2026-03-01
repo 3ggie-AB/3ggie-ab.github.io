@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, BookOpen, RefreshCw, Star } from 'lucide-react';
+import { addHistory } from '@/lib/history';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import AudioPlayer from '@/components/AudioPlayer';
