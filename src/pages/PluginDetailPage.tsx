@@ -29,6 +29,23 @@ const PluginDetailPage = () => {
 
   const surahLink = SURAH_LINK[plugin.id];
 
+  const handleExport = () => {
+    const exportData = {
+      name: plugin.name,
+      description: plugin.description,
+      icon: plugin.icon,
+      contents: plugin.contents,
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${plugin.id}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Plugin berhasil didownload!');
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
