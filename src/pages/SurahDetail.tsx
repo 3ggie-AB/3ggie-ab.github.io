@@ -46,6 +46,13 @@ const SurahDetail = () => {
     setIsFav(isShortcut(surahId));
   }, [surahId]);
 
+  // Track history when surah loads
+  useEffect(() => {
+    if (surah) {
+      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin });
+    }
+  }, [surah]);
+
   const toggleShortcut = () => {
     if (isFav) {
       removeShortcut(surahId);
