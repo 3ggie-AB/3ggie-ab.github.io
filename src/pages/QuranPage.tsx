@@ -18,8 +18,6 @@ const QuranPage = () => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [dlProgress, setDlProgress] = useState(0);
   const [shortcuts, setShortcuts] = useState<number[]>([]);
   const navigate = useNavigate();
 
