@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Puzzle, Download, Trash2, Plus, X, Upload, Check } from 'lucide-react';
+import { Puzzle, Download, Trash2, Plus, X, Upload, Check, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
