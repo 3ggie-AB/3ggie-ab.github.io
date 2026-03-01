@@ -4,6 +4,7 @@ import { History, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import OnlineIndicator from '@/components/OnlineIndicator';
 import { getHistory, clearHistory, type HistoryEntry } from '@/lib/history';
 
 const HistoryPage = () => {
