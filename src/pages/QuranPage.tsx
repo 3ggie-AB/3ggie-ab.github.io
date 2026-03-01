@@ -73,6 +73,9 @@ const QuranPage = () => {
             <OnlineIndicator />
           </div>
           <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => navigate('/juz')}>
+              <Layers className="h-4 w-4" />
+            </Button>
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleDownloadAll} disabled={downloading}>
               <Download className={`h-4 w-4 ${downloading ? 'animate-pulse' : ''}`} />
             </Button>
