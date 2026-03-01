@@ -187,6 +187,7 @@ const SurahDetail = () => {
             {filtered.map((ayat, i) => (
               <div
                 key={ayat.nomorAyat}
+                ref={(el) => { if (el) ayatRefs.current.set(ayat.nomorAyat, el); }}
                 className="rounded-lg border border-border bg-card p-4 animate-slide-up"
                 style={{ animationDelay: `${Math.min(i * 20, 200)}ms`, animationFillMode: 'backwards' }}
               >
