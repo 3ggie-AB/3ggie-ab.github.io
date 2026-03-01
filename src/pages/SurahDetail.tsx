@@ -47,10 +47,10 @@ const SurahDetail = () => {
     setIsFav(isShortcut(surahId));
   }, [surahId]);
 
-  // Track history when surah loads
+  // Initial history entry when surah loads
   useEffect(() => {
     if (surah) {
-      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin });
+      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin, ayat: 1 });
     }
   }, [surah]);
 
