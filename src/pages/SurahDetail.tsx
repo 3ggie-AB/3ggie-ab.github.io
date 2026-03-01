@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import AudioPlayer from '@/components/AudioPlayer';
 import SurahAudioPlayer from '@/components/SurahAudioPlayer';
 import ThemeToggle from '@/components/ThemeToggle';
+import OnlineIndicator from '@/components/OnlineIndicator';
 import { fetchAyats, fetchSurahs, fetchTafsir } from '@/lib/api';
 import { isShortcut, addShortcut, removeShortcut } from '@/lib/shortcuts';
 import { toast } from 'sonner';
