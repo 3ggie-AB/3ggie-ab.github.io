@@ -62,8 +62,8 @@ const QuranPage = () => {
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => navigate('/juz')}>
               <Layers className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleDownloadAll} disabled={downloading}>
-              <Download className={`h-4 w-4 ${downloading ? 'animate-pulse' : ''}`} />
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleDownloadAll}>
+              <Download className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => load(true)} disabled={refreshing}>
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
