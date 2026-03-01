@@ -83,6 +83,9 @@ const QuranPage = () => {
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-4">
+        {/* Quran Player */}
+        {!loading && surahs.length > 0 && <QuranPlayer surahs={surahs} />}
+
         {downloading && (
           <div className="mb-4 space-y-2 animate-fade-in">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
