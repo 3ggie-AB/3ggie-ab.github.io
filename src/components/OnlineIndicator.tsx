@@ -1,16 +1,25 @@
-import { Wifi, WifiOff } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useOnline } from '@/hooks/use-online';
 
 const OnlineIndicator = () => {
   const isOnline = useOnline();
 
   return (
-    <div className={`flex items-center justify-center gap-1.5 py-1 text-[10px] font-medium transition-colors ${
-      isOnline ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'
-    }`}>
-      {isOnline ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
-      <span>{isOnline ? 'Online' : 'Offline'}</span>
-    </div>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="relative flex items-center justify-center">
+          <span className={`block h-2.5 w-2.5 rounded-full transition-colors ${
+            isOnline ? 'bg-green-500' : 'bg-destructive'
+          }`} />
+          {isOnline && (
+            <span className="absolute h-2.5 w-2.5 rounded-full bg-green-500 animate-ping opacity-50" />
+          )}
+        </div>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">
+        <p className="text-xs">{isOnline ? 'Online' : 'Offline'}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 
