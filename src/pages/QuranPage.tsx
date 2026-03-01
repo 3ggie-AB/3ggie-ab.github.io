@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, BookOpen, RefreshCw, Download, Star } from 'lucide-react';
+import { Search, BookOpen, RefreshCw, Download, Star, Headphones } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import QuranPlayer from '@/components/QuranPlayer';
 import { fetchSurahs, downloadAllData } from '@/lib/api';
 import { getShortcuts } from '@/lib/shortcuts';
 import { toast } from 'sonner';
@@ -82,6 +83,9 @@ const QuranPage = () => {
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-4">
+        {/* Quran Player */}
+        {!loading && surahs.length > 0 && <QuranPlayer surahs={surahs} />}
+
         {downloading && (
           <div className="mb-4 space-y-2 animate-fade-in">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
