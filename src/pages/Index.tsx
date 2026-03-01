@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Home, WifiOff, Newspaper } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
+import { useOnline } from '@/hooks/use-online';
 
 interface NewsItem {
   title: string;
@@ -15,15 +17,15 @@ const Index = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const isOnline = useOnline();
+  const navigate = useNavigate();
 
+  // Redirect to Al-Quran when offline
   useEffect(() => {
-    const on = () => setIsOnline(true);
-    const off = () => setIsOnline(false);
-    window.addEventListener('online', on);
-    window.addEventListener('offline', off);
-    return () => { window.removeEventListener('online', on); window.removeEventListener('offline', off); };
-  }, []);
+    if (!isOnline) {
+      navigate('/quran', { replace: true });
+    }
+  }, [isOnline, navigate]);
 
   useEffect(() => {
     if (!isOnline) { setLoading(false); setError(true); return; }

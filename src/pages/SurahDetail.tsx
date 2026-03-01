@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, BookOpen, RefreshCw, Star } from 'lucide-react';
+import { addHistory } from '@/lib/history';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import AudioPlayer from '@/components/AudioPlayer';
@@ -44,6 +45,13 @@ const SurahDetail = () => {
     load();
     setIsFav(isShortcut(surahId));
   }, [surahId]);
+
+  // Track history when surah loads
+  useEffect(() => {
+    if (surah) {
+      addHistory({ surahNomor: surah.nomor, surahName: surah.namaLatin });
+    }
+  }, [surah]);
 
   const toggleShortcut = () => {
     if (isFav) {
