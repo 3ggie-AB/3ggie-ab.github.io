@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, BookOpen, RefreshCw, Download, Star, Headphones } from 'lucide-react';
+import { Search, BookOpen, RefreshCw, Download, Star, Headphones, Layers } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -65,14 +65,17 @@ const QuranPage = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <OnlineIndicator />
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
             <h1 className="text-lg font-bold tracking-tight text-foreground">Al-Quran</h1>
+            <OnlineIndicator />
           </div>
           <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => navigate('/juz')}>
+              <Layers className="h-4 w-4" />
+            </Button>
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleDownloadAll} disabled={downloading}>
               <Download className={`h-4 w-4 ${downloading ? 'animate-pulse' : ''}`} />
             </Button>
