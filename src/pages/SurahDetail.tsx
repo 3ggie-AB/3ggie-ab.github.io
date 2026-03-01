@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, BookOpen, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Search, BookOpen, RefreshCw, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import AudioPlayer from '@/components/AudioPlayer';
+import SurahAudioPlayer from '@/components/SurahAudioPlayer';
 import ThemeToggle from '@/components/ThemeToggle';
 import { fetchAyats, fetchSurahs, fetchTafsir } from '@/lib/api';
+import { isShortcut, addShortcut, removeShortcut } from '@/lib/shortcuts';
+import { toast } from 'sonner';
 import type { Surah, Ayat, Tafsir } from '@/lib/db';
 
 const SurahDetail = () => {
@@ -20,6 +23,7 @@ const SurahDetail = () => {
   const [loading, setLoading] = useState(true);
   const [openTafsir, setOpenTafsir] = useState<number | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   const load = async (force = false) => {
     if (force) setRefreshing(true);
@@ -36,7 +40,22 @@ const SurahDetail = () => {
     setRefreshing(false);
   };
 
-  useEffect(() => { load(); }, [surahId]);
+  useEffect(() => {
+    load();
+    setIsFav(isShortcut(surahId));
+  }, [surahId]);
+
+  const toggleShortcut = () => {
+    if (isFav) {
+      removeShortcut(surahId);
+      setIsFav(false);
+      toast('Shortcut dihapus');
+    } else {
+      addShortcut(surahId);
+      setIsFav(true);
+      toast('Shortcut ditambahkan');
+    }
+  };
 
   const loadTafsir = async (ayatNum: number) => {
     if (openTafsir === ayatNum) {
@@ -81,6 +100,14 @@ const SurahDetail = () => {
             </div>
           </div>
           <div className="flex items-center gap-1">
+            <Button
+              variant={isFav ? 'secondary' : 'ghost'}
+              size="icon"
+              className="h-9 w-9"
+              onClick={toggleShortcut}
+            >
+              <Star className={`h-4 w-4 ${isFav ? 'fill-current' : ''}`} />
+            </Button>
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => load(true)} disabled={refreshing}>
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
             </Button>
@@ -90,6 +117,11 @@ const SurahDetail = () => {
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-4">
+        {/* Full Surah Audio Player */}
+        {surah?.audioFull && (
+          <SurahAudioPlayer audioFull={surah.audioFull} surahName={surah.namaLatin} />
+        )}
+
         {/* Bismillah */}
         {surah && surahId !== 1 && surahId !== 9 && (
           <p className="arabic-text mb-6 text-center text-2xl text-foreground">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
@@ -120,7 +152,6 @@ const SurahDetail = () => {
                 className="rounded-lg border border-border bg-card p-4 animate-slide-up"
                 style={{ animationDelay: `${Math.min(i * 20, 200)}ms`, animationFillMode: 'backwards' }}
               >
-                {/* Ayat number + controls */}
                 <div className="mb-3 flex items-center justify-between">
                   <span className="flex h-7 w-7 items-center justify-center rounded-md bg-secondary text-xs font-semibold text-secondary-foreground">
                     {ayat.nomorAyat}
@@ -138,18 +169,12 @@ const SurahDetail = () => {
                   </div>
                 </div>
 
-                {/* Arabic */}
                 <p className="arabic-text mb-3 text-right text-2xl leading-loose text-foreground">
                   {ayat.teksArab}
                 </p>
-
-                {/* Latin */}
                 <p className="mb-2 text-sm italic text-muted-foreground">{ayat.teksLatin}</p>
-
-                {/* Translation */}
                 <p className="text-sm text-foreground/80">{ayat.teksIndonesia}</p>
 
-                {/* Tafsir */}
                 {openTafsir === ayat.nomorAyat && (
                   <div className="mt-3 rounded-md bg-secondary p-3 animate-scale-in">
                     <p className="mb-1 text-xs font-semibold text-secondary-foreground">Tafsir</p>
