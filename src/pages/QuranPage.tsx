@@ -76,15 +76,6 @@ const QuranPage = () => {
         {/* Quran Player */}
         {!loading && surahs.length > 0 && <QuranPlayer surahs={surahs} />}
 
-        {downloading && (
-          <div className="mb-4 space-y-2 animate-fade-in">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Mengunduh data...</span>
-              <span>{dlProgress}%</span>
-            </div>
-            <Progress value={dlProgress} className="h-2" />
-          </div>
-        )}
 
         {shortcutSurahs.length > 0 && !search && (
           <div className="mb-4 animate-fade-in">
