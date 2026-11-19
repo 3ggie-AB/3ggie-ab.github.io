@@ -435,27 +435,46 @@ export default function LandingPage() {
               </div>
 
               {/* Actions */}
-              <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-border/80">
-                <a
-                  href="https://github.com/3ggie-AB/WAReextendeeed"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full"
-                >
-                  <Button className="w-full gap-2 bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/20">
-                    <Github className="h-4 w-4" /> Kunjungi GitHub Repo
-                  </Button>
-                </a>
-                <a
-                  href="https://github.com/3ggie-AB/WAReextendeeed#readme"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full"
-                >
-                  <Button variant="outline" className="w-full gap-2">
-                    <ArrowUpRight className="h-4 w-4" /> Panduan Instalasi
-                  </Button>
-                </a>
+              <div className="mt-auto flex flex-col gap-2.5 pt-4 border-t border-border/80">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <a
+                    href="/whatsapp-reextended/"
+                    className="w-full"
+                  >
+                    <Button className="w-full gap-2 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white shadow-md shadow-orange-500/20">
+                      <ExternalLink className="h-4 w-4" /> Buka Laman Web Khusus
+                    </Button>
+                  </a>
+                  <a
+                    href="/whatsapp-reextended/whatsapp-reextended.zip"
+                    download
+                    className="w-full"
+                  >
+                    <Button variant="secondary" className="w-full gap-2 border border-border">
+                      <Download className="h-4 w-4 text-orange-500" /> Download ZIP Ekstensi
+                    </Button>
+                  </a>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <a
+                    href="https://github.com/3ggie-AB/WAReextendeeed"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    <Button variant="outline" size="sm" className="w-full gap-2 text-xs">
+                      <Github className="h-3.5 w-3.5" /> Repositori GitHub
+                    </Button>
+                  </a>
+                  <a
+                    href="/whatsapp-reextended/#cara-install"
+                    className="w-full"
+                  >
+                    <Button variant="ghost" size="sm" className="w-full gap-2 text-xs text-muted-foreground hover:text-foreground">
+                      <ArrowUpRight className="h-3.5 w-3.5" /> Panduan Instalasi
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -777,9 +796,7 @@ export default function LandingPage() {
               Al-Quran App
             </Link>
             <a
-              href="https://github.com/3ggie-AB/WAReextendeeed"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/whatsapp-reextended/"
               className="hover:text-foreground transition-colors"
             >
               WhatsappReextended
