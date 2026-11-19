@@ -1,3 +1,5 @@
+import { YASIN_FADHILAH } from './yasinFadhilah';
+
 export interface PluginContent {
   title: string;
   arabic?: string;
@@ -34,6 +36,28 @@ export const BUILTIN_PLUGINS: Plugin[] = [
       { title: 'Doa Sujud', arabic: 'سُبْحَانَ رَبِّيَ الْأَعْلَى', latin: 'Subhaana Rabbiyal A\'laa', translation: 'Maha Suci Tuhanku Yang Maha Tinggi.' },
       { title: 'Doa Duduk Antara Dua Sujud', arabic: 'رَبِّ اغْفِرْ لِي وَارْحَمْنِي وَاجْبُرْنِي وَارْفَعْنِي وَارْزُقْنِي وَاهْدِنِي وَعَافِنِي وَاعْفُ عَنِّي', latin: 'Rabbighfir lii warhamnii wajburnii warfa\'nii warzuqnii wahdinii wa \'aafinii wa\'fu \'annii', translation: 'Ya Tuhanku, ampunilah aku, rahmatilah aku, cukupkanlah aku, angkatlah derajatku, berilah aku rezeki, berilah aku petunjuk, berilah aku kesehatan, dan maafkanlah aku.' },
       { title: 'Tasyahud Awal', arabic: 'التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ', latin: 'Attahiyyaatul mubaarakaatush shalawaatuth thayyibaatu lillaah. Assalaamu \'alaika ayyuhan nabiyyu wa rahmatullaahi wa barakaatuh. Assalaamu \'alainaa wa \'alaa \'ibaadillaahish shaalihiin', translation: 'Segala penghormatan, keberkahan, shalawat dan kebaikan hanya bagi Allah. Semoga keselamatan terlimpah kepadamu wahai Nabi, begitu juga rahmat Allah dan berkah-Nya. Semoga keselamatan terlimpah kepada kami dan kepada hamba-hamba Allah yang saleh.' },
+    ],
+  },
+  {
+    id: 'doa-setelah-sholat',
+    name: 'Doa Setelah Sholat',
+    description: 'Wirid dan doa setelah sholat fardhu: istighfar, Ayat Kursi, tasbih, dan doa penutup',
+    icon: '📿',
+    type: 'builtin',
+    installed: false,
+    contents: [
+      {"title": "Istighfar (3x)", "arabic": "أَسْتَغْفِرُ اللّٰهَ الْعَظِيْمَ الَّذِيْ لَآ إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّوْمُ وَأَتُوْبُ إِلَيْهِ", "latin": "Astaghfirullaahal 'azhiimal ladzii laa ilaaha illaa huwal hayyul qayyuumu wa atuubu ilaih", "translation": "Aku memohon ampun kepada Allah Yang Maha Agung, yang tiada Tuhan selain Dia, Yang Maha Hidup lagi terus-menerus mengurus makhluk-Nya, dan aku bertobat kepada-Nya. (Dibaca 3 kali.)"},
+      {"title": "Tahlil (3x)", "arabic": "لَآ إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيْكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ وَهُوَ عَلٰى كُلِّ شَيْءٍ قَدِيْرٌ", "latin": "Laa ilaaha illallaahu wahdahuu laa syariika lah, lahul mulku wa lahul hamdu yuhyii wa yumiitu wa huwa 'alaa kulli syai-in qadiir", "translation": "Tiada Tuhan selain Allah Yang Maha Esa, tiada sekutu bagi-Nya. Bagi-Nya kerajaan dan bagi-Nya segala puji. Dia yang menghidupkan dan mematikan, dan Dia Maha Kuasa atas segala sesuatu. (Dibaca 3 kali; setelah Subuh dan Maghrib 10 kali.)"},
+      {"title": "Mohon Perlindungan dari Neraka (7x)", "arabic": "اَللّٰهُمَّ أَجِرْنِيْ مِنَ النَّارِ", "latin": "Allaahumma ajirnii minan naar", "translation": "Ya Allah, lindungilah aku dari api neraka. (Dibaca 7 kali setelah Subuh dan Maghrib.)"},
+      {"title": "Doa Keselamatan", "arabic": "اَللّٰهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ وَإِلَيْكَ يَعُوْدُ السَّلَامُ فَحَيِّنَا رَبَّنَا بِالسَّلَامِ وَأَدْخِلْنَا الْجَنَّةَ دَارَ السَّلَامِ تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ", "latin": "Allaahumma antas salaam, wa minkas salaam, wa ilaika ya'uudus salaam, fahayyinaa rabbanaa bis salaam, wa adkhilnal jannata daaras salaam, tabaarakta rabbanaa wa ta'aalaita yaa dzal jalaali wal ikraam", "translation": "Ya Allah, Engkaulah Yang Maha Sejahtera, dari-Mu kesejahteraan, dan kepada-Mu kembali kesejahteraan. Maka hidupkanlah kami, wahai Tuhan kami, dengan sejahtera, dan masukkanlah kami ke dalam surga, negeri kesejahteraan. Maha Berkah Engkau, wahai Tuhan kami, dan Maha Tinggi, wahai Pemilik keagungan dan kemuliaan."},
+      {"title": "Ayat Kursi", "arabic": "اَللّٰهُ لَآ اِلٰهَ اِلَّا هُوَۚ اَلْحَيُّ الْقَيُّوْمُ ەۚ لَا تَأْخُذُهٗ سِنَةٌ وَّلَا نَوْمٌۗ  لَهٗ مَا فِى السَّمٰوٰتِ وَمَا فِى الْاَرْضِۗ مَنْ ذَا الَّذِيْ يَشْفَعُ عِنْدَهٗٓ اِلَّا بِاِذْنِهٖۗ يَعْلَمُ مَا بَيْنَ اَيْدِيْهِمْ وَمَا خَلْفَهُمْۚ وَلَا يُحِيْطُوْنَ بِشَيْءٍ مِّنْ عِلْمِهٖٓ اِلَّا بِمَا شَاۤءَۚ وَسِعَ كُرْسِيُّهُ السَّمٰوٰتِ وَالْاَرْضَۚ وَلَا يَـُٔوْدُهٗ حِفْظُهُمَاۚ وَهُوَ الْعَلِيُّ الْعَظِيْمُ", "latin": "Allāhu lā ilāha illā huw(a), al-ḥayyul-qayyūm(u), lā ta'khużuhū sinatuw wa lā naum(un), lahū mā fis-samāwāti wa mā fil-arḍ(i), man żal-lażī yasyfa‘u ‘indahū illā bi'iżnih(ī), ya‘lamu mā baina aidīhim wa mā khalfahum, wa lā yuḥīṭūna bisyai'im min ‘ilmihī illā bimā syā'(a), wasi‘a kursiyyuhus-samāwāti wal-arḍ(a), wa lā ya'ūduhū ḥifẓuhumā, wa huwal-‘aliyyul-‘aẓīm(u).", "translation": "Allah, tidak ada tuhan selain Dia, Yang Maha Hidup lagi terus-menerus mengurus (makhluk-Nya). Dia tidak dilanda oleh kantuk dan tidak (pula) oleh tidur. Milik-Nyalah apa yang ada di langit dan apa yang ada di bumi. Tidak ada yang dapat memberi syafaat di sisi-Nya tanpa izin-Nya. Dia mengetahui apa yang ada di hadapan mereka dan apa yang ada di belakang mereka. Mereka tidak mengetahui sesuatu apa pun dari ilmu-Nya, kecuali apa yang Dia kehendaki. Kursi-Nya (ilmu dan kekuasaan-Nya) meliputi langit dan bumi. Dia tidak merasa berat memelihara keduanya. Dialah yang Maha Tinggi lagi Maha Agung."},
+      {"title": "Tasbih (33x)", "arabic": "سُبْحَانَ اللّٰهِ", "latin": "Subhaanallaah", "translation": "Maha Suci Allah. (Dibaca 33 kali.)"},
+      {"title": "Tahmid (33x)", "arabic": "اَلْحَمْدُ لِلّٰهِ", "latin": "Alhamdulillaah", "translation": "Segala puji bagi Allah. (Dibaca 33 kali.)"},
+      {"title": "Takbir (33x)", "arabic": "اَللّٰهُ أَكْبَرُ", "latin": "Allaahu akbar", "translation": "Allah Maha Besar. (Dibaca 33 kali.)"},
+      {"title": "Penyempurna Dzikir", "arabic": "اَللّٰهُ أَكْبَرُ كَبِيْرًا وَالْحَمْدُ لِلّٰهِ كَثِيْرًا وَسُبْحَانَ اللّٰهِ بُكْرَةً وَأَصِيْلًا، لَآ إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيْكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ وَهُوَ عَلٰى كُلِّ شَيْءٍ قَدِيْرٌ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ الْعَلِيِّ الْعَظِيْمِ", "latin": "Allaahu akbar kabiiraa, wal hamdu lillaahi katsiiraa, wa subhaanallaahi bukratan wa ashiilaa. Laa ilaaha illallaahu wahdahuu laa syariika lah, lahul mulku wa lahul hamdu yuhyii wa yumiitu wa huwa 'alaa kulli syai-in qadiir. Wa laa haula wa laa quwwata illaa billaahil 'aliyyil 'azhiim", "translation": "Allah Maha Besar dengan sebesar-besarnya, segala puji bagi Allah dengan pujian yang banyak, dan Maha Suci Allah pada pagi dan petang. Tiada Tuhan selain Allah Yang Maha Esa, tiada sekutu bagi-Nya. Bagi-Nya kerajaan dan bagi-Nya segala puji. Dia yang menghidupkan dan mematikan, dan Dia Maha Kuasa atas segala sesuatu. Tiada daya dan kekuatan kecuali dengan pertolongan Allah Yang Maha Tinggi lagi Maha Agung."},
+      {"title": "Doa Mohon Pertolongan Beribadah", "arabic": "اَللّٰهُمَّ أَعِنِّيْ عَلٰى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "latin": "Allaahumma a'innii 'alaa dzikrika wa syukrika wa husni 'ibaadatik", "translation": "Ya Allah, tolonglah aku untuk selalu mengingat-Mu, bersyukur kepada-Mu, dan beribadah kepada-Mu dengan baik."},
+      {"title": "Doa untuk Kedua Orang Tua", "arabic": "رَبِّ اغْفِرْ لِيْ وَلِوَالِدَيَّ وَارْحَمْهُمَا كَمَا رَبَّيَانِيْ صَغِيْرًا", "latin": "Rabbighfir lii wa liwaalidayya warhamhumaa kamaa rabbayaanii shaghiiraa", "translation": "Ya Tuhanku, ampunilah aku dan kedua orang tuaku, dan sayangilah mereka sebagaimana mereka mendidikku di waktu kecil."},
+      {"title": "Doa Sapu Jagat", "arabic": "رَبَّنَآ اٰتِنَا فِى الدُّنْيَا حَسَنَةً وَّفِى الْاٰخِرَةِ حَسَنَةً وَّقِنَا عَذَابَ النَّارِ", "latin": "Rabbanaa aatinaa fid dunyaa hasanah, wa fil aakhirati hasanah, wa qinaa 'adzaaban naar", "translation": "Wahai Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan lindungilah kami dari siksa neraka."},
     ],
   },
   {
@@ -85,14 +109,24 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   },
   {
     id: 'yasin-fadhilah',
-    name: 'Yasin & Fadhilah',
-    description: 'Surat Yasin beserta fadhilah dan keutamaannya',
+    name: 'Yasin Fadhilah',
+    description: 'Surat Yasin Fadhilah lengkap dengan hadharah, doa sisipan, dan doa penutup',
     icon: '📖',
     type: 'builtin',
     installed: false,
+    contents: YASIN_FADHILAH,
+  },
+  {
+    id: 'doa-dhuha',
+    name: 'Doa Dhuha',
+    description: 'Niat sholat Dhuha dan doa setelah sholat Dhuha',
+    icon: '☀️',
+    type: 'builtin',
+    installed: false,
     contents: [
-      { title: 'Keutamaan Surat Yasin', translation: 'Rasulullah ﷺ bersabda: "Bacakanlah Yasin kepada orang-orang yang sedang menghadapi kematian di antara kalian." (HR. Abu Dawud). Surat Yasin disebut sebagai jantungnya Al-Quran.' },
-      { title: 'Baca Surat Yasin', translation: 'Buka Surat Yasin (Surah ke-36) untuk membaca lengkap dengan terjemahan dan audio.' },
+      { title: 'Niat Sholat Dhuha', arabic: 'أُصَلِّيْ سُنَّةَ الضُّحٰى رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالٰى', latin: 'Ushallii sunnatadh dhuhaa rak\'ataini mustaqbilal qiblati adaa-an lillaahi ta\'aalaa', translation: 'Aku niat sholat sunnah Dhuha dua rakaat menghadap kiblat, tunai karena Allah Ta\'ala.' },
+      { title: 'Doa Setelah Sholat Dhuha', arabic: 'اَللّٰهُمَّ إِنَّ الضُّحَآءَ ضُحَاؤُكَ، وَالْبَهَاءَ بَهَاؤُكَ، وَالْجَمَالَ جَمَالُكَ، وَالْقُوَّةَ قُوَّتُكَ، وَالْقُدْرَةَ قُدْرَتُكَ، وَالْعِصْمَةَ عِصْمَتُكَ', latin: 'Allaahumma innadh dhuhaa-a dhuhaa-uka, wal bahaa-a bahaa-uka, wal jamaala jamaaluka, wal quwwata quwwatuka, wal qudrata qudratuka, wal \'ishmata \'ishmatuka', translation: 'Ya Allah, sesungguhnya waktu dhuha adalah waktu dhuha-Mu, keagungan adalah keagungan-Mu, keindahan adalah keindahan-Mu, kekuatan adalah kekuatan-Mu, kekuasaan adalah kekuasaan-Mu, dan penjagaan adalah penjagaan-Mu.' },
+      { title: 'Doa Memohon Rezeki', arabic: 'اَللّٰهُمَّ إِنْ كَانَ رِزْقِيْ فِي السَّمَآءِ فَأَنْزِلْهُ، وَإِنْ كَانَ فِي الْأَرْضِ فَأَخْرِجْهُ، وَإِنْ كَانَ مُعَسَّرًا فَيَسِّرْهُ، وَإِنْ كَانَ حَرَامًا فَطَهِّرْهُ، وَإِنْ كَانَ بَعِيْدًا فَقَرِّبْهُ، بِحَقِّ ضُحَائِكَ وَبَهَائِكَ وَجَمَالِكَ وَقُوَّتِكَ وَقُدْرَتِكَ، آتِنِيْ مَا آتَيْتَ عِبَادَكَ الصَّالِحِيْنَ', latin: 'Allaahumma in kaana rizqii fis samaa-i fa anzilhu, wa in kaana fil ardhi fa akhrijhu, wa in kaana mu\'assaran fa yassirhu, wa in kaana haraaman fa thahhirhu, wa in kaana ba\'iidan fa qarribhu, bihaqqi dhuhaa-ika wa bahaa-ika wa jamaalika wa quwwatika wa qudratika, aatinii maa aataita \'ibaadakash shaalihiin', translation: 'Ya Allah, jika rezekiku berada di langit maka turunkanlah, jika berada di bumi maka keluarkanlah, jika sulit maka mudahkanlah, jika haram maka sucikanlah, jika jauh maka dekatkanlah, berkat waktu dhuha-Mu, keagungan-Mu, keindahan-Mu, kekuatan-Mu, dan kekuasaan-Mu. Limpahkanlah kepadaku apa yang telah Engkau limpahkan kepada hamba-hamba-Mu yang saleh.' },
     ],
   },
 ];

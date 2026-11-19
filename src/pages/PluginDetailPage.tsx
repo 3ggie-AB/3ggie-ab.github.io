@@ -89,7 +89,7 @@ const PluginDetailPage = () => {
           >
             <p className="text-sm font-semibold text-foreground mb-2">{item.title}</p>
             {item.arabic && (
-              <p className="arabic-text text-right text-xl leading-loose text-foreground mb-2">{item.arabic}</p>
+              <p className="arabic-text whitespace-pre-line text-right text-xl leading-loose text-foreground mb-2">{item.arabic}</p>
             )}
             {item.latin && (
               <p className="text-sm italic text-muted-foreground mb-1">{item.latin}</p>
