@@ -13,6 +13,7 @@ import JuzPage from "./pages/JuzPage";
 import PluginPage from "./pages/PluginPage";
 import PluginDetailPage from "./pages/PluginDetailPage";
 import DownloadManagerPage from "./pages/DownloadManagerPage";
+import RoulettePage from "./pages/RoulettePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/plugin" element={<PluginPage />} />
             <Route path="/plugin/:id" element={<PluginDetailPage />} />
             <Route path="/downloads" element={<DownloadManagerPage />} />
+            <Route path="/roulette" element={<RoulettePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

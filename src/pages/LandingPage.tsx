@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowUpRight, Award, Brain, Check, Code2, Copy, Cpu, Database, Github, GraduationCap,
+  ArrowUpRight, Award, Brain, Check, Code2, Copy, Cpu, Database, Download, Github, GraduationCap,
   Layers, Linkedin, Server, Smartphone, Sparkles, Terminal,
 } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -40,6 +40,13 @@ const PROJECTS = [
     open: { to: '/whatsapp-reextended/', internal: false },
     repo: 'https://github.com/3ggie-AB/WAReextendeeed',
     zip: '/whatsapp-reextended/whatsapp-reextended.zip',
+  },
+  {
+    name: 'Roulette & Prediksi Probabilitas',
+    desc: 'Simulasi European Roulette dengan kalkulator odds, analisis statistik, & Monte Carlo.',
+    tags: ['React', 'Canvas', 'Probabilitas & Statistik', 'Web Audio'],
+    open: { to: '/roulette', internal: true },
+    repo: 'https://github.com/3ggie-AB/3ggie-ab.github.io',
   },
 ];
 
@@ -224,20 +231,20 @@ export default function LandingPage() {
                 <p className="text-xs text-foreground/55">{p.tags.join(' · ')}</p>
                 <div className="mt-auto flex flex-wrap gap-2 pt-2">
                   {p.open.internal ? (
-                    <Link to={p.open.to} className={`${pill} bg-foreground text-background hover:bg-foreground/85`}>
-                      Buka <ArrowUpRight className="h-4 w-4" />
+                    <Link to={p.open.to} className={`${pill} bg-foreground text-background hover:bg-foreground/85 font-semibold shadow-sm`}>
+                      Buka Aplikasi Langsung <ArrowUpRight className="h-4 w-4" />
                     </Link>
                   ) : (
-                    <a href={p.open.to} className={`${pill} bg-foreground text-background hover:bg-foreground/85`}>
-                      Buka <ArrowUpRight className="h-4 w-4" />
+                    <a href={p.open.to} className={`${pill} bg-foreground text-background hover:bg-foreground/85 font-semibold shadow-sm`}>
+                      Buka Aplikasi Langsung <ArrowUpRight className="h-4 w-4" />
                     </a>
                   )}
-                  <a href={p.repo} target="_blank" rel="noopener noreferrer" className={`${pill} hover:bg-foreground/10`}>
-                    Kode
+                  <a href={p.repo} target="_blank" rel="noopener noreferrer" className={`${pill} hover:bg-foreground/10 border border-foreground/15`}>
+                    <Github className="h-4 w-4" /> Repositori GitHub
                   </a>
                   {p.zip && (
-                    <a href={p.zip} download className={`${pill} hover:bg-foreground/10`}>
-                      ZIP
+                    <a href={p.zip} download className={`${pill} hover:bg-foreground/10 border border-foreground/15`}>
+                      <Download className="h-4 w-4" /> Unduh ZIP
                     </a>
                   )}
                 </div>
