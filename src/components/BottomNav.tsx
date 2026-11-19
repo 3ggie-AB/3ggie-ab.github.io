@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, BookOpen, Puzzle, History } from 'lucide-react';
+import { BookOpen, Puzzle, History } from 'lucide-react';
 import { useOnline } from '@/hooks/use-online';
 
 const BottomNav = () => {
@@ -8,7 +8,6 @@ const BottomNav = () => {
   const isOnline = useOnline();
 
   const allItems = [
-    { icon: Home, label: 'Beranda', path: '/beranda', onlineOnly: true },
     { icon: BookOpen, label: 'Al-Quran', path: '/quran', onlineOnly: false },
     { icon: History, label: 'Riwayat', path: '/history', onlineOnly: false },
     { icon: Puzzle, label: 'Plugin', path: '/plugin', onlineOnly: false },
