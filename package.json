@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://3ggie-AB.github.io/quran-companion/",
+  "homepage": "https://3ggie-ab.github.io/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
