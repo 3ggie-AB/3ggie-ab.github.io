@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Tanpa cache: sw.js yang dihasilkan menghapus semua cache lalu mencabut dirinya sendiri,
+      // supaya pengunjung lama yang masih punya service worker ikut bersih.
+      selfDestroying: true,
       manifest: {
         name: 'Egi Ahmad Baihaqi | Portfolio',
         short_name: 'Egi Baihaqi',
