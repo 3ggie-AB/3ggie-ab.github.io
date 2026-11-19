@@ -8,7 +8,9 @@ import AudioPlayer from '@/components/AudioPlayer';
 import SurahAudioPlayer from '@/components/SurahAudioPlayer';
 import ThemeToggle from '@/components/ThemeToggle';
 import FontSizeControl from '@/components/FontSizeControl';
+import ReadingSettingsControl from '@/components/ReadingSettingsControl';
 import { useFontScale } from '@/lib/fontSize';
+import { useReadingPreferences, THEME_CLASSES } from '@/lib/readingPreferences';
 import OnlineIndicator from '@/components/OnlineIndicator';
 import { fetchAyats, fetchSurahs, fetchTafsir } from '@/lib/api';
 import { isShortcut, addShortcut, removeShortcut } from '@/lib/shortcuts';
@@ -19,6 +21,8 @@ const SurahDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { scale, setScale, size } = useFontScale();
+  const { preferences, showLatin, showTranslation, theme, updatePreferences } = useReadingPreferences();
+  const themeStyle = THEME_CLASSES[theme];
   const surahId = parseInt(id || '1');
 
   const [surah, setSurah] = useState<Surah | null>(null);
@@ -122,13 +126,12 @@ const SurahDetail = () => {
   }, [trackAyatScroll]);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
+    <div className={`min-h-screen transition-colors duration-300 ${themeStyle.container}`}>
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => navigate('/')}>
+            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => navigate('/quran')}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
@@ -153,6 +156,7 @@ const SurahDetail = () => {
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => load(true)} disabled={refreshing}>
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
             </Button>
+            <ReadingSettingsControl preferences={preferences} onUpdate={updatePreferences} />
             <FontSizeControl scale={scale} onChange={setScale} />
             <ThemeToggle />
           </div>
@@ -193,11 +197,11 @@ const SurahDetail = () => {
               <div
                 key={ayat.nomorAyat}
                 ref={(el) => { if (el) ayatRefs.current.set(ayat.nomorAyat, el); }}
-                className="rounded-lg border border-border bg-card p-4 animate-slide-up"
+                className={`rounded-lg border p-4 animate-slide-up transition-colors duration-200 ${themeStyle.card}`}
                 style={{ animationDelay: `${Math.min(i * 20, 200)}ms`, animationFillMode: 'backwards' }}
               >
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-secondary text-xs font-semibold text-secondary-foreground">
+                  <span className={`flex h-7 w-7 items-center justify-center rounded-md text-xs font-semibold ${themeStyle.badge}`}>
                     {ayat.nomorAyat}
                   </span>
                   <div className="flex items-center gap-1">
@@ -213,11 +217,15 @@ const SurahDetail = () => {
                   </div>
                 </div>
 
-                <p className="arabic-text mb-3 text-right leading-loose text-foreground" style={size(1.5)}>
+                <p className={`arabic-text mb-3 text-right leading-loose ${themeStyle.textArabic}`} style={size(1.5)}>
                   {ayat.teksArab}
                 </p>
-                <p className="mb-2 italic text-muted-foreground" style={size(0.875)}>{ayat.teksLatin}</p>
-                <p className="text-foreground/80" style={size(0.875)}>{ayat.teksIndonesia}</p>
+                {showLatin && (
+                  <p className={`mb-2 italic ${themeStyle.textLatin}`} style={size(0.875)}>{ayat.teksLatin}</p>
+                )}
+                {showTranslation && (
+                  <p className={themeStyle.textTranslation} style={size(0.875)}>{ayat.teksIndonesia}</p>
+                )}
 
                 {openTafsir === ayat.nomorAyat && (
                   <div className="mt-3 rounded-md bg-secondary p-3 animate-scale-in">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, ChevronRight, FileDown } from 'lucide-react';
 import { toast } from 'sonner';
@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
 import FontSizeControl from '@/components/FontSizeControl';
+import ReadingSettingsControl from '@/components/ReadingSettingsControl';
 import { useFontScale } from '@/lib/fontSize';
-import { BUILTIN_PLUGINS, getCustomPlugins, type Plugin } from '@/lib/plugins';
+import { useReadingPreferences, THEME_CLASSES } from '@/lib/readingPreferences';
+import { BUILTIN_PLUGINS, getCustomPlugins } from '@/lib/plugins';
 
 const SURAH_LINK: Record<string, number> = {
   'yasin-fadhilah': 36,
@@ -17,6 +19,8 @@ const PluginDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { scale, setScale, size } = useFontScale();
+  const { preferences, showLatin, showTranslation, theme, updatePreferences } = useReadingPreferences();
+  const themeStyle = THEME_CLASSES[theme];
 
   const allPlugins = [...BUILTIN_PLUGINS, ...getCustomPlugins()];
   const plugin = allPlugins.find((p) => p.id === id);
@@ -50,7 +54,7 @@ const PluginDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className={`min-h-screen pb-20 transition-colors duration-300 ${themeStyle.container}`}>
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
@@ -68,6 +72,7 @@ const PluginDetailPage = () => {
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleExport} title="Download JSON">
               <FileDown className="h-4 w-4" />
             </Button>
+            <ReadingSettingsControl preferences={preferences} onUpdate={updatePreferences} />
             <FontSizeControl scale={scale} onChange={setScale} />
             <ThemeToggle />
           </div>
@@ -88,18 +93,18 @@ const PluginDetailPage = () => {
         {plugin.contents.map((item, i) => (
           <div
             key={i}
-            className={`rounded-lg border p-4 animate-slide-up ${
-              item.highlight ? 'border-primary/40 bg-primary/5' : 'border-border bg-card'
+            className={`rounded-lg border p-4 animate-slide-up transition-colors duration-200 ${
+              item.highlight ? 'border-primary/40 bg-primary/5' : themeStyle.card
             }`}
             style={{ animationDelay: `${Math.min(i * 30, 300)}ms`, animationFillMode: 'backwards' }}
           >
             <div className="mb-2 flex items-center justify-between gap-2">
               {item.ayat ? (
-                <span className="flex h-7 min-w-7 items-center justify-center rounded-md bg-secondary px-1.5 text-xs font-semibold text-secondary-foreground">
+                <span className={`flex h-7 min-w-7 items-center justify-center rounded-md px-1.5 text-xs font-semibold ${themeStyle.badge}`}>
                   {item.ayat}
                 </span>
               ) : (
-                <p className={`text-sm font-semibold ${item.highlight ? 'text-primary' : 'text-foreground'}`}>
+                <p className={`text-sm font-semibold ${item.highlight ? 'text-primary' : themeStyle.textTranslation}`}>
                   {item.highlight && '🤲 '}{item.title}
                 </p>
               )}
@@ -110,13 +115,19 @@ const PluginDetailPage = () => {
               )}
             </div>
             {item.arabic && (
-              <p className="arabic-text whitespace-pre-line text-right leading-loose text-foreground mb-2" style={size(1.25)}>{item.arabic}</p>
+              <p className={`arabic-text whitespace-pre-line text-right leading-loose mb-2 ${themeStyle.textArabic}`} style={size(1.25)}>
+                {item.arabic}
+              </p>
             )}
-            {item.latin && (
-              <p className="italic text-muted-foreground mb-1" style={size(0.875)}>{item.latin}</p>
+            {showLatin && item.latin && (
+              <p className={`italic mb-1 ${themeStyle.textLatin}`} style={size(0.875)}>
+                {item.latin}
+              </p>
             )}
-            {item.translation && (
-              <p className="text-foreground/80" style={size(0.875)}>{item.translation}</p>
+            {showTranslation && item.translation && (
+              <p className={themeStyle.textTranslation} style={size(0.875)}>
+                {item.translation}
+              </p>
             )}
           </div>
         ))}
