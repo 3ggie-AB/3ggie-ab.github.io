@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
+import LandingPage from "./pages/LandingPage";
 import Index from "./pages/Index";
 import QuranPage from "./pages/QuranPage";
 import SurahDetail from "./pages/SurahDetail";
@@ -18,7 +19,14 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
+  // Only show splash screen if directly opening quran routes
+  const isQuranRoute =
+    typeof window !== "undefined" &&
+    (window.location.pathname.startsWith("/quran") ||
+      window.location.pathname.startsWith("/beranda") ||
+      window.location.pathname.startsWith("/surah"));
+
+  const [showSplash, setShowSplash] = useState(isQuranRoute);
   const handleSplashFinish = useCallback(() => setShowSplash(false), []);
 
   return (
@@ -29,7 +37,8 @@ const App = () => {
         {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/beranda" element={<Index />} />
             <Route path="/quran" element={<QuranPage />} />
             <Route path="/surah/:id" element={<SurahDetail />} />
             <Route path="/history" element={<HistoryPage />} />

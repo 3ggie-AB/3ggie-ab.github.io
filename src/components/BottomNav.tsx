@@ -8,7 +8,7 @@ const BottomNav = () => {
   const isOnline = useOnline();
 
   const allItems = [
-    { icon: Home, label: 'Beranda', path: '/', onlineOnly: true },
+    { icon: Home, label: 'Beranda', path: '/beranda', onlineOnly: true },
     { icon: BookOpen, label: 'Al-Quran', path: '/quran', onlineOnly: false },
     { icon: History, label: 'Riwayat', path: '/history', onlineOnly: false },
     { icon: Puzzle, label: 'Plugin', path: '/plugin', onlineOnly: false },

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Home, WifiOff, Newspaper } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Home, WifiOff, Newspaper, ArrowLeft } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import BottomNav from '@/components/BottomNav';
 import OnlineIndicator from '@/components/OnlineIndicator';
@@ -56,11 +56,26 @@ const Index = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors mr-1 p-1 rounded hover:bg-muted"
+              title="Kembali ke Portofolio Egi"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
             <Home className="h-5 w-5 text-primary" />
             <h1 className="text-lg font-bold tracking-tight text-foreground">Beranda</h1>
             <OnlineIndicator />
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Link
+              to="/"
+              className="hidden sm:inline-flex text-xs font-medium text-muted-foreground hover:text-primary transition-colors px-2 py-1 rounded bg-muted/60 border border-border"
+            >
+              Portofolio Egi
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
