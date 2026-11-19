@@ -37,6 +37,18 @@ export default defineConfig({
     },
   },
   base: '/',
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          query: ['@tanstack/react-query'],
+          dexie: ['dexie'],
+        },
+      },
+    },
+  },
   server: {
     host: "0.0.0.0",
     port: 8245
