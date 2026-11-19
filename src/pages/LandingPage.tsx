@@ -127,7 +127,14 @@ export default function LandingPage() {
       <LavaLamp />
 
       <header className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
-        <span className="text-sm font-semibold tracking-tight">egi.</span>
+        <a href="#" className="flex items-center gap-2.5 group">
+          <img
+            src="/avatar.png"
+            alt="Egi Ahmad Baihaqi"
+            className="h-8 w-8 rounded-full border border-foreground/15 object-cover shadow-sm transition-transform group-hover:scale-105"
+          />
+          <span className="text-sm font-bold tracking-tight">egi<span className="text-primary font-black">.</span></span>
+        </a>
         <nav className="flex items-center gap-1 text-sm">
           <a href="#karya" className="rounded-full px-3 py-1.5 hover:bg-foreground/10">Karya</a>
           <a href="#about" className="hidden rounded-full px-3 py-1.5 hover:bg-foreground/10 sm:block">Tentang</a>
@@ -142,7 +149,7 @@ export default function LandingPage() {
           <div className="space-y-5 lg:col-span-7">
             <div className="flex items-center gap-3">
               <img
-                src="https://avatars.githubusercontent.com/u/151058698?v=4"
+                src="/avatar.png"
                 alt="Egi Ahmad Baihaqi"
                 className="h-12 w-12 rounded-full border border-foreground/15 object-cover"
               />

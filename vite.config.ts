@@ -9,11 +9,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Quran App',
-        short_name: 'Quran',
-        description: 'Aplikasi Al-Quran Offline',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        name: 'Egi Ahmad Baihaqi | Portfolio',
+        short_name: 'Egi Baihaqi',
+        description: 'Portfolio resmi Egi Ahmad Baihaqi - Software Engineer & Fullstack Developer',
+        theme_color: '#0a0a0a',
+        background_color: '#0a0a0a',
         display: 'standalone',
         start_url: '/',
         icons: [
