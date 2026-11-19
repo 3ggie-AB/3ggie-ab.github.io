@@ -6,7 +6,7 @@
   "homepage": "https://3ggie-ab.github.io/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp -r dist/assets . && cp dist/registerSW.js dist/sw.js dist/workbox-*.js dist/manifest.webmanifest . && cp dist/index.html 404.html",
+    "build": "vite build && cp -r dist/* . && cp dist/index.html 404.html",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
