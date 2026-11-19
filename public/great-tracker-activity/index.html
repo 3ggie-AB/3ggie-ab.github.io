@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreatTrackerActivity - Smart Chrome Productivity & Micro-Activity Tracker</title>
+  <meta name="description" content="Ekstensi Chrome cerdas untuk melacak aktivitas mikro produktivitas (ChatGPT, YouTube, GitHub) dengan auto-pause saat kursor diam (15 detik) atau saat beralih ke aplikasi luar Chrome.">
+  <link rel="icon" type="image/png" href="icons/icon48.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0e14;
+      --bg-card: #111722;
+      --bg-card-hover: #182030;
+      --bg-surface: #1a2332;
+      --border-color: #202b3d;
+      --border-accent: rgba(16, 185, 129, 0.4);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-green-hover: #059669;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .glow-blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .glow-green {
+      top: -100px;
+      left: 15%;
+      background: radial-gradient(circle, var(--accent-green) 0%, transparent 70%);
+    }
+    .glow-purple {
+      top: 250px;
+      right: 10%;
+      background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(10, 14, 20, 0.85);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .logo-badge img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px;
+    }
+
+    .logo-text h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-text span {
+      font-size: 0.72rem;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 0 50px;
+      text-align: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--accent-green);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Live Simulator Showcase */
+    .simulator-section {
+      padding: 40px 0 70px;
+    }
+
+    .simulator-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .sim-header {
+      background: #0d121a;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .sim-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .sim-pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .sim-body {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 860px) {
+      .sim-body {
+        grid-template-columns: 1fr;
+      }
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+    }
+
+    .metric-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .metric-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: var(--font-mono);
+    }
+
+    .platform-card {
+      background: #0e141e;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+
+    .platform-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .platform-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      padding: 6px 0;
+      border-top: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+
+    .action-row span:first-child {
+      color: var(--text-muted);
+    }
+
+    .action-row span:last-child {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .sim-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Features Grid */
+    .features {
+      padding: 50px 0 80px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-card ul {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .feature-card li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-card li::before {
+      content: "✓";
+      color: var(--accent-green);
+      font-weight: 800;
+    }
+
+    /* Installation Steps */
+    .install-section {
+      padding: 60px 0 90px;
+      background: #070a0e;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 36px;
+    }
+
+    .step-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      color: #000;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .step-box h5 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-box p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 36px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-blob glow-green"></div>
+  <div class="glow-blob glow-purple"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="/" class="logo-badge">
+        <img src="icons/icon48.png" alt="GreatTracker Logo">
+        <div class="logo-text">
+          <h1>GreatTrackerActivity <span>MV3 Extension</span></h1>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="/" class="btn btn-secondary">← Portofolio</a>
+        <a href="great-tracker-activity.zip" download class="btn btn-primary">Unduh ZIP</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge-pill">⚡ Chrome MV3 · Smart Micro-Activity Tracker</div>
+      <h2>Pelacak Aktivitas Otomatis<br>dengan Pause Cerdas 15 Detik</h2>
+      <p>
+        Bukan sekadar penghitung waktu domain biasa. GreatTrackerActivity mendeteksi aksi mikro nyata di ChatGPT, YouTube, dan GitHub serta otomatis menjeda ketika kursor diam selama 15 detik atau beralih ke aplikasi luar Chrome.
+      </p>
+      <div class="hero-actions">
+        <a href="great-tracker-activity.zip" download class="btn btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+          📥 Unduh Ekstensi (.zip)
+        </a>
+        <a href="#demo" class="btn btn-secondary" style="padding: 14px 28px; font-size: 1rem;">
+          Lihat Simulasi Live ↓
+        </a>
+        <a href="https://github.com/3ggie-AB/GreatTrackerActivity" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 14px 24px;">
+          Repositori GitHub ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Simulator Section -->
+  <section class="simulator-section" id="demo">
+    <div class="container">
+      <div class="simulator-card">
+        <div class="sim-header">
+          <div class="sim-status">
+            <span class="sim-pulse" id="simPulse"></span>
+            <span id="simStatusText">MEMANTAU AKTIF: ChatGPT (Mengetik Prompt)</span>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">
+            Auto-Pause Rule: <span style="color: var(--accent-green); font-weight: 700;">Idle &gt; 15s / Blur Window</span>
+          </div>
+        </div>
+
+        <div class="sim-body">
+          <!-- Left: Metrics & Controls -->
+          <div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+              <div class="metric-box">
+                <div class="metric-title">Total Fokus Hari Ini</div>
+                <div class="metric-value" id="simTotalTime">02h 45m 12s</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-title">Status Detektor</div>
+                <div class="metric-value" id="simActiveState" style="color: var(--accent-green); font-size: 1.4rem; padding-top: 4px;">Aktif</div>
+              </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+              <div style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px;">Uji Coba Interaktif:</div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+                Klik tombol di bawah untuk menguji respon auto-pause ekstensi ketika kursor diam atau berpindah aplikasi:
+              </p>
+              <div class="sim-controls">
+                <button class="btn btn-secondary" id="btnSimulateIdle" style="font-size: 0.8rem; padding: 8px 14px;">
+                  ⏸ Simulasikan Kursor Diam (>15s)
+                </button>
+                <button class="btn btn-secondary" id="btnSimulateAppSwitch" style="font-size: 0.8rem; padding: 8px 14px;">
+                  🖥 Beralih ke VS Code / Terminal
+                </button>
+                <button class="btn btn-primary" id="btnSimulateActive" style="font-size: 0.8rem; padding: 8px 14px;">
+                  ▶ Lanjutkan Aktivitas
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Realtime Breakdown Breakdown -->
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">
+              Aktivitas Mikro Terdeteksi
+            </div>
+
+            <!-- ChatGPT -->
+            <div class="platform-card">
+              <div class="platform-header">
+                <span class="platform-name">🤖 ChatGPT</span>
+                <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-green);" id="gptTotal">1j 40m</span>
+              </div>
+              <div class="action-row"><span>Mengetik Prompt</span><span id="gptTyping">40m 12s</span></div>
+              <div class="action-row"><span>Membaca Respons</span><span id="gptReading">30m 00s</span></div>
+              <div class="action-row"><span>Menunggu AI Generate</span><span id="gptWaiting">15m 00s</span></div>
+              <div class="action-row"><span>Copy Code & Upload Berkas</span><span id="gptExtra">15m 00s</span></div>
+            </div>
+
+            <!-- YouTube -->
+            <div class="platform-card">
+              <div class="platform-header">
+                <span class="platform-name">🎥 YouTube</span>
+                <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-blue);" id="ytTotal">1j 20m</span>
+              </div>
+              <div class="action-row"><span>Nonton Video Pembelajaran</span><span>50m 00s</span></div>
+              <div class="action-row"><span>Cari Video & Navigasi</span><span>15m 00s</span></div>
+              <div class="action-row"><span>Shorts & Komentar Diskusi</span><span>15m 00s</span></div>
+            </div>
+
+            <!-- GitHub -->
+            <div class="platform-card">
+              <div class="platform-header">
+                <span class="platform-name">🐙 GitHub</span>
+                <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-purple);" id="ghTotal">1j 25m</span>
+              </div>
+              <div class="action-row"><span>Coding & Review Kode</span><span>40m 00s</span></div>
+              <div class="action-row"><span>Membaca Dokumentasi README</span><span>20m 00s</span></div>
+              <div class="action-row"><span>Cek Issue & Pull Request</span><span>25m 00s</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features">
+    <div class="container">
+      <div class="section-title">
+        <h3>Fitur Utama yang Dirancang</h3>
+        <p>Dirancang khusus untuk membedakan antara waktu belajar produktif dan waktu afk / idle.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h4>ChatGPT Intelligence</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Mendeteksi state spesifik pengguna saat berinteraksi dengan AI:
+          </p>
+          <ul>
+            <li>Fokus input teks prompt aktif</li>
+            <li>Status menunggu AI berpikir (stop button aktif)</li>
+            <li>Membaca respons & scroll viewport</li>
+            <li>Klik tombol copy code & upload lampiran berkas</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⏱</div>
+          <h4>Auto-Pause 15 Detik</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Menghilangkan bias waktu palsu saat Anda meninggalkan meja:
+          </p>
+          <ul>
+            <li>Deteksi kursor diam setelah 15 detik</li>
+            <li>Deteksi tidak ada scroll atau ketukan keyboard</li>
+            <li>Otomatis pause saat pindah ke aplikasi luar Chrome</li>
+            <li>Melanjutkan perhitungan saat interaksi kembali aktif</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h4>Dashboard Popup Ringkas</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Ekstensi dilengkapi antarmuka popup modern:
+          </p>
+          <ul>
+            <li>Status live real-time pemantauan</li>
+            <li>Progress bar breakdown per platform</li>
+            <li>Ekspor data aktivitas ke JSON</li>
+            <li>Penyimpanan lokal aman via Chrome Storage API</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Steps -->
+  <section class="install-section">
+    <div class="container">
+      <div class="section-title">
+        <h3>Cara Memasang di Google Chrome</h3>
+        <p>Hanya membutuhkan 4 langkah mudah tanpa perlu compile ulang.</p>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-box">
+          <div class="step-num">1</div>
+          <h5>Unduh Berkas ZIP</h5>
+          <p>Klik tombol <strong>Unduh ZIP</strong> di atas dan ekstrak berkas <code>great-tracker-activity.zip</code> ke folder laptop Anda.</p>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num">2</div>
+          <h5>Buka chrome://extensions</h5>
+          <p>Ketik <code>chrome://extensions</code> di bilah URL browser Chrome Anda, lalu tekan tombol Enter.</p>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num">3</div>
+          <h5>Aktifkan Developer Mode</h5>
+          <p>Nyalakan toggle switch <strong>Developer mode</strong> di pojok kanan atas halaman ekstensi Chrome.</p>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num">4</div>
+          <h5>Load Unpacked Folder</h5>
+          <p>Klik tombol <strong>Load unpacked</strong> di kiri atas dan pilih folder hasil ekstrak. Ekstensi siap digunakan!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Egi Ahmad Baihaqi · GreatTrackerActivity Chrome Extension</p>
+    </div>
+  </footer>
+
+  <script>
+    // Live Simulator interactive script
+    let totalSeconds = 2 * 3600 + 45 * 60 + 12;
+    let gptSeconds = 40 * 60 + 12;
+    let isPaused = false;
+    let timer = null;
+
+    const pulseEl = document.getElementById('simPulse');
+    const statusTextEl = document.getElementById('simStatusText');
+    const totalTimeEl = document.getElementById('simTotalTime');
+    const activeStateEl = document.getElementById('simActiveState');
+    const gptTypingEl = document.getElementById('gptTyping');
+
+    function formatTime(sec) {
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      return `${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
+    }
+
+    function formatShort(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}m ${String(s).padStart(2, '0')}s`;
+    }
+
+    function startTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => {
+        if (!isPaused) {
+          totalSeconds++;
+          gptSeconds++;
+          totalTimeEl.textContent = formatTime(totalSeconds);
+          gptTypingEl.textContent = formatShort(gptSeconds);
+        }
+      }, 1000);
+    }
+
+    startTimer();
+
+    document.getElementById('btnSimulateIdle').addEventListener('click', () => {
+      isPaused = true;
+      pulseEl.style.background = '#f59e0b';
+      pulseEl.style.boxShadow = '0 0 10px #f59e0b';
+      pulseEl.style.animation = 'none';
+      statusTextEl.innerHTML = '<span style="color: #f59e0b;">DIJEDA (KURSOR DIAM &gt; 15s)</span>';
+      activeStateEl.textContent = 'Dijeda (Idle)';
+      activeStateEl.style.color = '#f59e0b';
+    });
+
+    document.getElementById('btnSimulateAppSwitch').addEventListener('click', () => {
+      isPaused = true;
+      pulseEl.style.background = '#ef4444';
+      pulseEl.style.boxShadow = '0 0 10px #ef4444';
+      pulseEl.style.animation = 'none';
+      statusTextEl.innerHTML = '<span style="color: #ef4444;">DIJEDA (PENGGUNA BERADA DI LUAR CHROME)</span>';
+      activeStateEl.textContent = 'Luar Chrome';
+      activeStateEl.style.color = '#ef4444';
+    });
+
+    document.getElementById('btnSimulateActive').addEventListener('click', () => {
+      isPaused = false;
+      pulseEl.style.background = '#10b981';
+      pulseEl.style.boxShadow = '0 0 10px #10b981';
+      pulseEl.style.animation = 'pulse 1.8s infinite';
+      statusTextEl.textContent = 'MEMANTAU AKTIF: ChatGPT (Mengetik Prompt)';
+      activeStateEl.textContent = 'Aktif';
+      activeStateEl.style.color = '#10b981';
+    });
+  </script>
+</body>
+</html>

@@ -42,6 +42,14 @@ const PROJECTS = [
     zip: '/whatsapp-reextended/whatsapp-reextended.zip',
   },
   {
+    name: 'GreatTrackerActivity',
+    desc: 'Ekstensi Chrome pelacak produktivitas mikro (ChatGPT, YouTube, GitHub) dengan auto-pause kursor diam (15s) atau ganti aplikasi.',
+    tags: ['Chrome MV3', 'Smart Tracker', 'Idle Auto-Pause', 'Vanilla JS'],
+    open: { to: '/great-tracker-activity/', internal: false },
+    repo: 'https://github.com/3ggie-AB/GreatTrackerActivity',
+    zip: '/great-tracker-activity/great-tracker-activity.zip',
+  },
+  {
     name: 'Roulette & Prediksi Probabilitas',
     desc: 'Simulasi European Roulette dengan kalkulator odds, analisis statistik, & Monte Carlo.',
     tags: ['React', 'Canvas', 'Probabilitas & Statistik', 'Web Audio'],
@@ -194,7 +202,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-3 divide-x divide-foreground/10 text-center">
               {[
                 ['65+', 'Repo'],
-                ['2', 'Karya'],
+                ['4', 'Karya'],
                 ['3', 'Riset'],
               ].map(([n, label]) => (
                 <div key={label} className="px-2 py-4">
