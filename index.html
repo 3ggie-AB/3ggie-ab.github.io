@@ -13,9 +13,22 @@
     <meta property="og:description" content="Portfolio resmi Egi Ahmad Baihaqi (@3ggie-AB). Proyek unggulan: Al Quran Digital (PWA) & WhatsappReextended Chrome Extension." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CKVovfwb.css">
+    <script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      const isLocal =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname === '0.0.0.0';
+
+      if (isLocal) {
+        import('/src/main.tsx');
+      } else {
+        import('/assets/index-Bz_qYWPy.js');
+      }
+    </script>
   </body>
 </html>
